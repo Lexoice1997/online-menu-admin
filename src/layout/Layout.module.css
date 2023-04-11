@@ -1,0 +1,31 @@
+.wrapper {
+  display: grid;
+  grid-template-areas:
+    'navbar header header'
+    'navbar main main'
+    'navbar footer footer';
+  grid-template-columns: 256px 1fr;
+  grid-template-rows: 60px 1fr 60px;
+  max-height: calc(100vh + 100px);
+}
+.header {
+  grid-area: header;
+  z-index: 2;
+  border-bottom: 1px solid #d1d1d3;
+}
+
+.navbar {
+  grid-area: navbar;
+  border-right: 1px solid #d1d1d3;
+}
+
+.main {
+  grid-area: main;
+  height: calc(100vh - 120px);
+  overflow: auto;
+}
+
+.footer {
+  grid-area: footer;
+  border-top: 1px solid #d1d1d3;
+}
