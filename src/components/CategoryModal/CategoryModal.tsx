@@ -98,7 +98,11 @@ export default function CategoryModal({ notify }: ICategoryModal) {
               defaultValue={categoryValue}
             />
 
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              fullWidth
+              sx={{ mt: 3, mb: 2, backgroundColor: '#1890ff', color: 'white' }}
+            >
               {edit ? 'Изменить' : 'Создать'}
             </Button>
           </Box>

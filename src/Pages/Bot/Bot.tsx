@@ -3,110 +3,15 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Pagination,
   Popover,
   Select,
   SelectChangeEvent,
-  Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 import { useGetOrdersQuery } from '../../store/services/apiService';
 import styles from './Bot.module.css';
-
-const rows = [
-  {
-    id: 1,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 2,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 3,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 4,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 5,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 6,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 7,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 8,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'rOrder orderOrder orderOrder orderOrder order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-  {
-    id: 9,
-    name: 'Snow',
-    phone: '+998972411997',
-    adress: 'Нукус мангит',
-    comment: 'Order order',
-    orders: 'pizza 2x',
-    total: 50000,
-    status: 'Ожидание',
-  },
-];
 
 function Bot() {
   const { data: orders, isLoading } = useGetOrdersQuery({

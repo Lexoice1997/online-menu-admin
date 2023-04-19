@@ -1,5 +1,5 @@
 .navbar {
-  padding: 20px;
+  padding: 10px;
   color: #3a3939;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .linksActive {
-  background-color: #f5f8ff;
+  background-color: #eef2fa;
   border: 1px solid #a3a3a3;
   padding: 10px;
   width: 100%;
@@ -43,7 +43,7 @@
 }
 
 .links:hover {
-  background-color: #f5f8ff;
+  background-color: #eef2fa;
   border: 1px solid #a3a3a3;
 }
 

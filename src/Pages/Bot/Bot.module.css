@@ -1,4 +1,7 @@
 .bot {
   min-height: calc(100vh - 120px);
   padding: 20px;
+  background-color: white;
+  margin: 20px;
+  border-radius: 7px;
 }

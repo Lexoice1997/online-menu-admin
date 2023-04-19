@@ -52,9 +52,17 @@ function AdminItem({ category }: { category: Category }) {
     <div className="admin-item">
       <Toaster />
       <div className="admin-head">
-        <Box sx={{ display: 'flex' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            backgroundColor: '#f1f2f5;',
+            alignItems: 'center',
+            px: 1,
+            borderRadius: '5px',
+          }}
+        >
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{ cursor: 'pointer' }}
             onClick={() => handleOpenCategory(category.id, category.name)}
           >
@@ -67,7 +75,13 @@ function AdminItem({ category }: { category: Category }) {
               </IconButton>
             </Tooltip>
             <Popper id={id} open={openPopper} anchorEl={anchorEl} placement="top">
-              <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+              <Box
+                sx={{
+                  border: 1,
+                  p: 1,
+                  bgcolor: 'background.paper',
+                }}
+              >
                 <Typography>Вы точно хотите удалить?</Typography>
                 <Box sx={{ marginTop: 2 }}>
                   <Button
@@ -88,7 +102,12 @@ function AdminItem({ category }: { category: Category }) {
           </Box>
         </Box>
 
-        <Button variant="contained" size="small" color="secondary" onClick={handleOpenFood}>
+        <Button
+          variant="contained"
+          size="small"
+          sx={{ backgroundColor: '#1890ff' }}
+          onClick={handleOpenFood}
+        >
           Добавить
         </Button>
       </div>

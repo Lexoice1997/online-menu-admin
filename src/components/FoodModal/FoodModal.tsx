@@ -121,7 +121,7 @@ export default function FoodModal({ notify }: IFoodModal) {
             {edit ? 'Изменить блюдо из меню' : 'Добавить блюдо в меню'}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <Button variant="contained" component="label">
+            <Button sx={{ backgroundColor: '#1890ff', color: 'white' }} component="label">
               Upload
               <input hidden type="file" onChange={handleChangeFile} />
             </Button>
@@ -158,7 +158,11 @@ export default function FoodModal({ notify }: IFoodModal) {
               id="price"
               defaultValue={foodValue.price}
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              fullWidth
+              sx={{ mt: 3, mb: 2, backgroundColor: '#1890ff', color: 'white' }}
+            >
               {edit ? 'Обнавить' : 'Создать'}
             </Button>
           </Box>
