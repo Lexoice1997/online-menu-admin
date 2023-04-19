@@ -5,7 +5,7 @@ import { RootState } from '../store';
 
 // process.env.REACT_APP_API_URL
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://kvartirabar.uz',
+  baseUrl: 'https://kvartirabar.uz',
   // credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const { token } = (getState() as RootState).auth;
