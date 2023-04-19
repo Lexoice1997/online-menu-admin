@@ -84,6 +84,10 @@ export const apiService = apiSlice.injectEndpoints({
         body: { ...credentials },
       }),
     }),
+    getOrders: builder.query<any, any>({
+      query: ({ take, page, status }) => `order?status=${status}&take=${take}&page=${page}`,
+      providesTags: ['Orders'],
+    }),
   }),
 });
 
@@ -100,4 +104,5 @@ export const {
   useUpdateCategoryMutation,
   useSearchQuery,
   useRemoveFoodMutation,
+  useGetOrdersQuery,
 } = apiService;

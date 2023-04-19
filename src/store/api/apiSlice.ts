@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 // eslint-disable-next-line import/no-cycle
 import { RootState } from '../store';
 
@@ -6,17 +7,32 @@ import { RootState } from '../store';
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://kvartirabar.uz',
   // credentials: 'include',
-  // prepareHeaders: (headers, { getState }) => {
-  //   const { token } = (getState() as RootState).auth;
-  //   if (token) {
-  //     headers.set('authorization', `Bearer ${token}`);
-  //   }
-  //   return headers;
-  // },
+  prepareHeaders: (headers, { getState }) => {
+    const { token } = (getState() as RootState).auth;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
 });
 
 export const apiSlice = createApi({
   baseQuery,
   endpoints: (builder) => ({}),
-  tagTypes: ['Categories', 'Users', 'Foods'],
+  tagTypes: ['Categories', 'Users', 'Foods', 'Orders'],
 });
+
+const $host = axios.create({
+  baseURL: 'http://kvartirabar.uz',
+});
+
+const $authHost = axios.create({
+  baseURL: 'http://kvartirabar.uz',
+});
+
+$authHost.interceptors.request.use((config: any) => {
+  (config.headers as AxiosRequestHeaders).authorization = `Bearer ${localStorage.getItem('token')}`;
+  return config;
+});
+
+export { $host, $authHost };

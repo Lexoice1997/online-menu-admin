@@ -8,6 +8,7 @@ import CategoryModal from '../../components/CategoryModal/CategoryModal';
 import ChangePasswordModal from '../../components/ChangePasswordModal/ChangePasswordModal';
 import FoodModal from '../../components/FoodModal/FoodModal';
 import { useAppDispatch, useAppSelector } from '../../helpers/hooks/redux';
+import { $authHost } from '../../store/api/apiSlice';
 import {
   useCreateFoodMutation,
   useGetAllCategoriesWithFoodsQuery,
@@ -27,6 +28,11 @@ function Admin() {
   const { data: categories } = useGetAllCategoriesWithFoodsQuery(null);
   const { name, phone, token } = useAppSelector((state) => state.auth);
 
+  const haldefads = async () => {
+    const res = await $authHost.get('/category');
+    console.log(res);
+  };
+
   const handleOpenModalAuth = () => {
     dispatch(setAuthModal(true));
   };
@@ -34,6 +40,7 @@ function Admin() {
   useEffect(() => {
     // dispatch(check(token));
     // dispatch(getFoods());
+    haldefads();
   }, [dispatch, token]);
 
   return (
