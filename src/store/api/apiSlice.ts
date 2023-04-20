@@ -23,11 +23,11 @@ export const apiSlice = createApi({
 });
 
 const $host = axios.create({
-  baseURL: 'http://kvartirabar.uz',
+  baseURL: 'https://kvartirabar.uz',
 });
 
 const $authHost = axios.create({
-  baseURL: 'http://kvartirabar.uz',
+  baseURL: 'https://kvartirabar.uz',
 });
 
 $authHost.interceptors.request.use((config: any) => {

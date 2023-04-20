@@ -31,7 +31,7 @@ function Navbar() {
       </Link>
 
       <Link to="/statistic">
-        <div className={pathname === '/statistics' ? styles.linksActive : styles.links}>
+        <div className={pathname === '/statistic' ? styles.linksActive : styles.links}>
           <div className={styles.linksItems}>
             <EqualizerIcon />
             <p>Statistic</p>

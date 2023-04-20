@@ -10,33 +10,40 @@ import {
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
+import { splitNum } from '../../helpers/utils/splitNum';
 import { useGetOrdersQuery } from '../../store/services/apiService';
 import styles from './Bot.module.css';
 
 function Bot() {
-  const { data: orders, isLoading } = useGetOrdersQuery({
-    take: 5,
-    page: 1,
-    status: 'Expectation',
-  });
+  const { data: orders, isLoading } = useGetOrdersQuery(
+    {
+      take: 10,
+      page: 1,
+      status: 'Expectation',
+    },
+    { pollingInterval: 5000 }
+  );
   const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 5,
+    pageSize: 10,
     page: 0,
   });
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpen(false);
   };
 
   console.log(orders);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  // const open = Boolean(anchorEl);
+  // const id = open ? 'simple-popover' : undefined;
 
   const [age, setAge] = React.useState('');
 
@@ -51,12 +58,14 @@ function Bot() {
       headerName: 'Имя',
       width: 150,
       editable: true,
+      renderCell: (params: any) => <div>{params?.row?.member?.full_name}</div>,
     },
     {
       field: 'phone',
       headerName: 'Телефон',
       width: 150,
       editable: true,
+      renderCell: (params: any) => <div>{params?.row?.member?.phone_number}</div>,
     },
     {
       field: 'adress',
@@ -79,7 +88,7 @@ function Bot() {
         <div>
           {params?.row.products.map((item: any) => (
             <div key={item.id}>
-              {item.menu.name} {item.count}x
+              {item.menu?.name} {item.count}x
             </div>
           ))}
         </div>
@@ -90,12 +99,13 @@ function Bot() {
       headerName: 'Цена',
       width: 110,
       editable: true,
+      renderCell: (params: any) => <div>{splitNum(params?.row.total_price)}</div>,
     },
     {
       field: 'status',
       headerName: 'Статус',
       width: 110,
-      editable: true,
+      renderCell: (params: any) => <div style={{ color: '#1890ff' }}>Ожидание</div>,
     },
     {
       field: 'date',
@@ -104,11 +114,16 @@ function Bot() {
       editable: false,
       renderCell: (params: any) => (
         <>
-          <Button aria-describedby={id} variant="contained" onClick={handleClick} size="small">
+          <Button
+            aria-describedby={String(params?.row.id)}
+            variant="contained"
+            onClick={handleClick}
+            size="small"
+          >
             Статус
           </Button>
           <Popover
-            id={id}
+            id={String(params?.row.id)}
             open={open}
             anchorEl={anchorEl}
             onClose={handleClose}
@@ -120,10 +135,10 @@ function Bot() {
           >
             <Box display="flex" flexDirection="column">
               <FormControl sx={{ mx: 3, mt: 3, minWidth: 120 }} size="small">
-                <InputLabel id="demo-select-small">Статус</InputLabel>
+                <InputLabel id={params?.row.id}>Статус</InputLabel>
                 <Select
-                  labelId="demo-select-small"
-                  id="demo-select-small"
+                  labelId={params?.row.id}
+                  id={params?.row.id}
                   value={age}
                   label="Статус"
                   onChange={handleChange}
@@ -134,7 +149,7 @@ function Bot() {
                 </Select>
               </FormControl>
               <Button
-                aria-describedby={id}
+                aria-describedby={params?.row.id}
                 variant="contained"
                 onClick={handleClick}
                 size="small"
