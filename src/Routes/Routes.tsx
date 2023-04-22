@@ -15,7 +15,10 @@ function RoutesComponent() {
       <Route element={<RequireAuth />}>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Admin />} />
-          <Route path="/bot" element={<Bot />} />
+          <Route path="/menu" element={<Admin />} />
+          <Route path="/waiting" element={<Bot botStatus="Expectation" botPage={1} />} />
+          <Route path="/success" element={<Bot botStatus="Accepted" botPage={1} />} />
+          <Route path="/refusal" element={<Bot botStatus="Refusal" botPage={1} />} />
           <Route path="/statistic" element={<Statistics />} />
         </Route>
       </Route>

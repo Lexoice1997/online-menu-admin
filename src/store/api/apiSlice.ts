@@ -19,7 +19,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   baseQuery,
   endpoints: (builder) => ({}),
-  tagTypes: ['Categories', 'Users', 'Foods', 'Orders'],
+  tagTypes: ['Categories', 'Users', 'Foods', 'Orders', 'Statistics'],
 });
 
 const $host = axios.create({

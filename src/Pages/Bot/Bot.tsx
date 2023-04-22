@@ -1,54 +1,38 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Popover,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable no-nested-ternary */
+import { Alert, Pagination } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import dayjs from 'dayjs';
 import React from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import NotificationSound from '../../assets/notification.mp3';
 import { splitNum } from '../../helpers/utils/splitNum';
 import { useGetOrdersQuery } from '../../store/services/apiService';
 import styles from './Bot.module.css';
+import BotStatusContent from './BotStatusContent';
 
-function Bot() {
+interface BotProps {
+  botStatus: string;
+  botPage: number;
+}
+
+function Bot({ botStatus, botPage }: BotProps) {
+  const [page, setPage] = React.useState(botPage);
+  const [ordersCount, setOrdersCount] = React.useState<number>(0);
+  const audioPlayer = React.useRef(null);
+
   const { data: orders, isLoading } = useGetOrdersQuery(
     {
       take: 10,
-      page: 1,
-      status: 'Expectation',
+      page,
+      status: botStatus,
     },
     { pollingInterval: 5000 }
   );
-  const [paginationModel, setPaginationModel] = React.useState({
-    pageSize: 10,
-    page: 0,
-  });
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-  const [open, setOpen] = React.useState(false);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpen(false);
-  };
-
-  console.log(orders);
-
-  // const open = Boolean(anchorEl);
-  // const id = open ? 'simple-popover' : undefined;
-
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
   };
 
   const columns: GridColDef[] = [
@@ -56,127 +40,123 @@ function Bot() {
     {
       field: 'name',
       headerName: 'Имя',
-      width: 150,
-      editable: true,
+      width: 100,
+      editable: false,
       renderCell: (params: any) => <div>{params?.row?.member?.full_name}</div>,
     },
     {
       field: 'phone',
       headerName: 'Телефон',
-      width: 150,
-      editable: true,
+      width: 130,
+      editable: false,
       renderCell: (params: any) => <div>{params?.row?.member?.phone_number}</div>,
     },
     {
       field: 'adress',
       headerName: 'Адрес',
-      width: 150,
-      editable: true,
+      width: 120,
+      editable: false,
     },
     {
       field: 'comment',
       headerName: 'Комментарии',
       width: 150,
-      editable: true,
+      editable: false,
     },
     {
       field: 'orders',
       headerName: 'Заказы',
-      width: 168,
-      editable: true,
+      width: 170,
+      editable: false,
       renderCell: (params: any) => (
-        <div>
+        <Box sx={{ py: 1 }}>
           {params?.row.products.map((item: any) => (
             <div key={item.id}>
               {item.menu?.name} {item.count}x
             </div>
           ))}
-        </div>
+        </Box>
       ),
     },
     {
       field: 'total_price',
       headerName: 'Цена',
-      width: 110,
-      editable: true,
+      width: 90,
+      editable: false,
       renderCell: (params: any) => <div>{splitNum(params?.row.total_price)}</div>,
+    },
+    {
+      field: 'createdAt',
+      headerName: 'Время',
+      width: 150,
+      renderCell: (params: any) => (
+        <div>{dayjs(params?.row.createdAt).format('DD/MM/YYYY H:mm')}</div>
+      ),
     },
     {
       field: 'status',
       headerName: 'Статус',
-      width: 110,
-      renderCell: (params: any) => <div style={{ color: '#1890ff' }}>Ожидание</div>,
+      width: 100,
+      renderCell: (params: any) => (
+        <div>
+          {botStatus === 'Expectation' ? (
+            <span style={{ color: '#1890ff' }}>Ожидание</span>
+          ) : botStatus === 'Accepted' ? (
+            <span style={{ color: '#50C878' }}>Принято</span>
+          ) : (
+            <span style={{ color: '#EB4C42' }}>Отказ</span>
+          )}
+        </div>
+      ),
     },
     {
       field: 'date',
       headerName: 'Действии',
-      width: 200,
+      width: 100,
       editable: false,
-      renderCell: (params: any) => (
-        <>
-          <Button
-            aria-describedby={String(params?.row.id)}
-            variant="contained"
-            onClick={handleClick}
-            size="small"
-          >
-            Статус
-          </Button>
-          <Popover
-            id={String(params?.row.id)}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            sx={{ padding: 2 }}
-          >
-            <Box display="flex" flexDirection="column">
-              <FormControl sx={{ mx: 3, mt: 3, minWidth: 120 }} size="small">
-                <InputLabel id={params?.row.id}>Статус</InputLabel>
-                <Select
-                  labelId={params?.row.id}
-                  id={params?.row.id}
-                  value={age}
-                  label="Статус"
-                  onChange={handleChange}
-                >
-                  <MenuItem value={10}>Ожидание</MenuItem>
-                  <MenuItem value={20}>Принят</MenuItem>
-                  <MenuItem value={30}>Отказ</MenuItem>
-                </Select>
-              </FormControl>
-              <Button
-                aria-describedby={params?.row.id}
-                variant="contained"
-                onClick={handleClick}
-                size="small"
-                sx={{ mt: 2, mx: 3, mb: 3 }}
-              >
-                Отправить
-              </Button>
-            </Box>
-          </Popover>
-        </>
-      ),
+      renderCell: (params: any) => <BotStatusContent id={params?.row.id} />,
     },
   ];
+
+  React.useEffect(() => {
+    if (orders?.count > ordersCount) {
+      setOrdersCount(orders.count);
+      toast.success('У вас новый заказ!');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      audioPlayer.current.play();
+      console.log(ordersCount);
+    }
+  }, [orders?.count, ordersCount]);
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [botStatus]);
+
   return (
     <div className={styles.bot}>
+      <Toaster />
+      <audio ref={audioPlayer} src={NotificationSound} />
       <Box sx={{ height: 'calc(100vh - 170px)', width: '100%' }}>
         <DataGrid
           rows={orders?.data ? orders.data : []}
-          columns={columns}
+          rowCount={orders?.count}
           getRowHeight={() => 'auto'}
-          paginationModel={paginationModel}
-          onPaginationModelChange={setPaginationModel}
-          pageSizeOptions={[5]}
+          columns={columns}
           checkboxSelection
           disableRowSelectionOnClick
           loading={isLoading}
+          hideFooterPagination
+          hideFooter
         />
+        <Box display="grid" justifyContent="end" p="2">
+          <Pagination
+            count={orders?.count ? Math.ceil(orders.count / 10) : 1}
+            page={page}
+            onChange={handleChange}
+            sx={{ p: 2 }}
+          />
+        </Box>
       </Box>
     </div>
   );

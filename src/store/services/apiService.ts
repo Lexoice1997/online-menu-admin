@@ -88,6 +88,18 @@ export const apiService = apiSlice.injectEndpoints({
       query: ({ take, page, status }) => `order?status=${status}&take=${take}&page=${page}`,
       providesTags: ['Orders'],
     }),
+    updateOrder: builder.mutation<any, any>({
+      query: ({ credentials, id }) => ({
+        url: `/order/${id}`,
+        method: 'PATCH',
+        body: credentials,
+      }),
+      invalidatesTags: ['Orders'],
+    }),
+    getStatistics: builder.query<any, any>({
+      query: ({ start, end }) => `statistics?start=${start}&end=${end}`,
+      providesTags: ['Statistics'],
+    }),
   }),
 });
 
@@ -105,4 +117,6 @@ export const {
   useSearchQuery,
   useRemoveFoodMutation,
   useGetOrdersQuery,
+  useUpdateOrderMutation,
+  useGetStatisticsQuery,
 } = apiService;

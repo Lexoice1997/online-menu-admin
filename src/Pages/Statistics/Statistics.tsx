@@ -1,28 +1,27 @@
 import { Line } from '@ant-design/charts';
+import { Box, Button } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import dayjs, { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { useGetStatisticsQuery } from '../../store/services/apiService';
 import styles from './Statistics.module.css';
 
 function Statistics() {
-  const [data, setData] = useState([]);
+  const [startValue, setStartValue] = React.useState<Dayjs | null>(dayjs('2023-03-01'));
+  const [endValue, setEndValue] = React.useState<Dayjs | null>(dayjs('2023-07-01'));
+  const { data = [], isLoading } = useGetStatisticsQuery({
+    start: dayjs(startValue).format('YYYY-MM-DD'),
+    end: dayjs(endValue).format('YYYY-MM-DD'),
+  });
 
-  const asyncFetch = () => {
-    fetch('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json')
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log('fetch data failed', error);
-      });
-  };
-
-  console.log(data);
   const config: any = {
     data,
     padding: 'auto',
-    xField: 'Date',
-    yField: 'scales',
+    xField: 'date',
+    yField: 'total',
     annotations: [
-      // 低于中位数颜色变化
       {
         type: 'regionFilter',
         start: ['min', 'median'],
@@ -50,14 +49,37 @@ function Statistics() {
     ],
   };
 
-  useEffect(() => {
-    asyncFetch();
-  }, []);
-
   return (
     <div className={styles.statistics}>
+      <Box display="flex" sx={{ p: 2 }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DatePicker']}>
+            <DatePicker
+              value={startValue}
+              onChange={(newValue) => setStartValue(newValue)}
+              label="start"
+              sx={{ mx: 2 }}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DatePicker']}>
+            <DatePicker
+              value={endValue}
+              onChange={(newValue) => setEndValue(newValue)}
+              label="end"
+              sx={{ mx: 2 }}
+            />
+          </DemoContainer>
+        </LocalizationProvider>
+
+        <Button variant="contained" sx={{ my: 2, mx: 2 }}>
+          Фильтр
+        </Button>
+      </Box>
+
       <div className={styles.stat}>
-        <Line {...config} />
+        <Line {...config} loading={isLoading} />
       </div>
     </div>
   );

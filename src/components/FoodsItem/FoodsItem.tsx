@@ -15,8 +15,8 @@ function FoodsItem({ id, name, description, price, avatar, admin, categoryId }: 
         className="food-img"
         width="100%"
         height={130}
+        style={{ padding: '10px' }}
       />
-      {/* <img src={image} className="food-img" alt={name} /> */}
       <div className={admin ? 'food-info-admin' : 'food-info'}>
         <div>
           <div>
