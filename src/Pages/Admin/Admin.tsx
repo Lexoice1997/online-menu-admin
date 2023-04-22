@@ -30,7 +30,6 @@ function Admin() {
 
   const haldefads = async () => {
     const res = await $authHost.get('/category');
-    console.log(res);
   };
 
   const handleOpenModalAuth = () => {

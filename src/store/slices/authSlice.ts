@@ -53,8 +53,8 @@ const authSlice = createSlice({
       state.name = name;
       state.phone = phone;
       state.isAuth = true;
-      state.token = token;
-      localStorage.setItem('token', token);
+      state.token = 'asdasdasd';
+      localStorage.setItem('token', 'asdasdasdasd');
     },
     logOut: (state) => {
       state.isAuth = false;
