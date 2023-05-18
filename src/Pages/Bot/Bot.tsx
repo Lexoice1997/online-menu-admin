@@ -128,7 +128,7 @@ function Bot({ botStatus, botPage }: BotProps) {
       // @ts-ignore
       audioPlayer.current.play();
     }
-  }, [orders?.count, ordersCount]);
+  }, [orders?.count]);
 
   React.useEffect(() => {
     setPage(1);
