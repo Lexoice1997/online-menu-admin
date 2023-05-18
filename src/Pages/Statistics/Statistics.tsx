@@ -1,10 +1,11 @@
-import { Line } from '@ant-design/charts';
+import { Line } from '@ant-design/plots';
+
 import { Box, Button } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs, { Dayjs } from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useGetStatisticsQuery } from '../../store/services/apiService';
 import styles from './Statistics.module.css';
 
@@ -16,37 +17,49 @@ function Statistics() {
     end: dayjs(endValue).format('YYYY-MM-DD'),
   });
 
+  console.log(data);
+
+  // const config: any = {
+  //   data,
+  //   padding: 'auto',
+  //   xField: 'date',
+  //   yField: 'total',
+  //   annotations: [
+  //     {
+  //       type: 'regionFilter',
+  //       start: ['min', 'median'],
+  //       end: ['max', '0'],
+  //       color: '#F4664A',
+  //     },
+  //     {
+  //       type: 'text',
+  //       position: ['min', 'median'],
+  //       content: 'Средний прибыль',
+  //       offsetY: -4,
+  //       style: {
+  //         textBaseline: 'bottom',
+  //       },
+  //     },
+  //     {
+  //       type: 'line',
+  //       start: ['min', 'median'],
+  //       end: ['max', 'median'],
+  //       style: {
+  //         stroke: '#F4664A',
+  //         lineDash: [2, 2],
+  //       },
+  //     },
+  //   ],
+  // };
   const config: any = {
     data,
     padding: 'auto',
     xField: 'date',
     yField: 'total',
-    annotations: [
-      {
-        type: 'regionFilter',
-        start: ['min', 'median'],
-        end: ['max', '0'],
-        color: '#F4664A',
-      },
-      {
-        type: 'text',
-        position: ['min', 'median'],
-        content: 'Средний прибыль',
-        offsetY: -4,
-        style: {
-          textBaseline: 'bottom',
-        },
-      },
-      {
-        type: 'line',
-        start: ['min', 'median'],
-        end: ['max', 'median'],
-        style: {
-          stroke: '#F4664A',
-          lineDash: [2, 2],
-        },
-      },
-    ],
+    xAxis: {
+      type: 'timeCat',
+      tickCount: 5,
+    },
   };
 
   return (
@@ -73,9 +86,9 @@ function Statistics() {
           </DemoContainer>
         </LocalizationProvider>
 
-        <Button variant="contained" sx={{ my: 2, mx: 2 }}>
+        {/* <Button variant="contained" sx={{ my: 2, mx: 2 }}>
           Фильтр
-        </Button>
+        </Button> */}
       </Box>
 
       <div className={styles.stat}>

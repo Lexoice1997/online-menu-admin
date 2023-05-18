@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-nested-ternary */
-import { Alert, Pagination } from '@mui/material';
+import { Pagination } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
@@ -28,7 +28,9 @@ function Bot({ botStatus, botPage }: BotProps) {
       page,
       status: botStatus,
     },
-    { pollingInterval: 5000 }
+    {
+      pollingInterval: 5000,
+    }
   );
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -119,8 +121,8 @@ function Bot({ botStatus, botPage }: BotProps) {
   ];
 
   React.useEffect(() => {
+    setOrdersCount(orders?.count);
     if (orders?.count > ordersCount) {
-      setOrdersCount(orders.count);
       toast.success('У вас новый заказ!');
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
