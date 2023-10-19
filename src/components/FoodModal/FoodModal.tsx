@@ -45,13 +45,6 @@ export default function FoodModal({ notify }: IFoodModal) {
 
     if (edit) {
       try {
-        const formData = new FormData();
-        formData.append('image', image);
-        formData.append('name', data.get('name') as string);
-        formData.append('description', data.get('description') as string);
-        formData.append('price', data.get('price') as string);
-        formData.append('category', categoryId as string);
-        formData.append('sale', '0');
         const dataBody = {
           avatar: image,
           name: data?.get('name'),
@@ -74,13 +67,6 @@ export default function FoodModal({ notify }: IFoodModal) {
       }
     } else {
       try {
-        const formData = new FormData();
-        formData.append('image', image);
-        formData.append('name', data.get('name') as string);
-        formData.append('description', data.get('description') as string);
-        formData.append('price', data.get('price') as string);
-        formData.append('category', categoryId as string);
-        formData.append('sale', '0');
         const dataBody = {
           avatar: image,
           name: data?.get('name'),
