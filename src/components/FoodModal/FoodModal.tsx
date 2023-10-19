@@ -55,7 +55,7 @@ export default function FoodModal({ notify }: IFoodModal) {
           avatar: image,
           name: data?.get('name'),
           description: data?.get('description'),
-          price: +data?.get('price'),
+          price: data?.get('price') as unknown as number,
           category: categoryId,
           sale: 0,
         };
@@ -82,7 +82,7 @@ export default function FoodModal({ notify }: IFoodModal) {
           avatar: image,
           name: data?.get('name'),
           description: data?.get('description'),
-          price: +data?.get('price'),
+          price: data.get('price') as unknown as number,
           category: categoryId,
           sale: 0,
         };
