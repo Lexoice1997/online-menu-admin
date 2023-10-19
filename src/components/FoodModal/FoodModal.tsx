@@ -51,7 +51,15 @@ export default function FoodModal({ notify }: IFoodModal) {
         formData.append('price', data.get('price') as string);
         formData.append('category', categoryId as string);
         formData.append('sale', '0');
-        await updateFood({ credentials: formData, id: foodsInfo.id });
+        const dataBody = {
+          avatar: image,
+          name: data?.get('name'),
+          description: data?.get('description'),
+          price: +data?.get('price'),
+          category: categoryId,
+          sale: 0,
+        };
+        await updateFood({ credentials: dataBody, id: foodsInfo.id });
 
         if (updateError) {
           notify();
@@ -70,7 +78,15 @@ export default function FoodModal({ notify }: IFoodModal) {
         formData.append('price', data.get('price') as string);
         formData.append('category', categoryId as string);
         formData.append('sale', '0');
-        await createFood(formData);
+        const dataBody = {
+          avatar: image,
+          name: data?.get('name'),
+          description: data?.get('description'),
+          price: +data?.get('price'),
+          category: categoryId,
+          sale: 0,
+        };
+        await createFood(dataBody);
         if (createError) {
           notify();
         } else {
@@ -82,9 +98,20 @@ export default function FoodModal({ notify }: IFoodModal) {
     }
   };
 
+  function getBase64(file: any) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setImage(reader?.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
+
   const handleChangeFile = async (event: any) => {
     const file = event.target.files[0];
-    setImage(file);
+    getBase64(file);
   };
 
   React.useLayoutEffect(() => {

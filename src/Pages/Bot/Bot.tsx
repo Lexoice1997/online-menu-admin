@@ -22,7 +22,11 @@ function Bot({ botStatus, botPage }: BotProps) {
   const [ordersCount, setOrdersCount] = React.useState<number>(0);
   const audioPlayer = React.useRef(null);
 
-  const { data: orders, isLoading } = useGetOrdersQuery(
+  const {
+    data: orders,
+    isLoading,
+    isSuccess,
+  } = useGetOrdersQuery(
     {
       take: 10,
       page,
@@ -122,13 +126,16 @@ function Bot({ botStatus, botPage }: BotProps) {
 
   React.useEffect(() => {
     setOrdersCount(orders?.count);
+  }, [isSuccess, orders?.count]);
+
+  React.useEffect(() => {
     if (orders?.count > ordersCount) {
       toast.success('У вас новый заказ!');
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       audioPlayer.current.play();
     }
-  }, [orders?.count]);
+  }, [orders?.count, ordersCount]);
 
   React.useEffect(() => {
     setPage(1);
