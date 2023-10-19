@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { CircularProgress, Container, CssBaseline, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -55,7 +56,9 @@ export default function FoodModal({ notify }: IFoodModal) {
           avatar: image,
           name: data?.get('name'),
           description: data?.get('description'),
-          price: data?.get('price') as unknown as number,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          price: +data?.get('price'),
           category: categoryId,
           sale: 0,
         };
@@ -82,7 +85,9 @@ export default function FoodModal({ notify }: IFoodModal) {
           avatar: image,
           name: data?.get('name'),
           description: data?.get('description'),
-          price: data.get('price') as unknown as number,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          price: +data.get('price'),
           category: categoryId,
           sale: 0,
         };
